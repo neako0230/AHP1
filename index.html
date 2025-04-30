@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AHP專家問卷作答表單</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f0f8ff; }
+    .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1, h2 { color: #0275d8; }
+    .section { margin-bottom: 30px; }
+    .question { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    select { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background-color: #5cb85c; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    button:hover { background-color: #4cae4c; }
+    @media (max-width: 600px) {
+      .container { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>AHP專家問卷作答</h1>
+  <form id="ahpForm">
+
+    <div class="section">
+      <h2>準則層成對比較</h2>
+      <!-- 6 題成對比較 -->
+      <div class="question"><label for="q1">(1) 提供自我管理技巧培訓 vs (2) 增強自我監控能力</label><select id="q1" required></select></div>
+      <div class="question"><label for="q2">(1) 提供自我管理技巧培訓 vs (3) 鼓勵自我激勵策略</label><select id="q2" required></select></div>
+      <div class="question"><label for="q3">(1) 提供自我管理技巧培訓 vs (4) 提供學習資源支持</label><select id="q3" required></select></div>
+      <div class="question"><label for="q4">(2) 增強自我監控能力 vs (3) 鼓勵自我激勵策略</label><select id="q4" required></select></div>
+      <div class="question"><label for="q5">(2) 增強自我監控能力 vs (4) 提供學習資源支持</label><select id="q5" required></select></div>
+      <div class="question"><label for="q6">(3) 鼓勵自我激勵策略 vs (4) 提供學習資源支持</label><select id="q6" required></select></div>
+    </div>
+
+    <div class="section">
+      <h2>選擇層成對比較</h2>
+      <!-- 每個準則下的方案比較 -->
+      <div class="question"><label for="q7">(1) 線上課程 vs (2) 實體工作坊（提供自我管理技巧培訓）</label><select id="q7" required></select></div>
+      <div class="question"><label for="q8">(1) 線上課程 vs (3) 一對一輔導（提供自我管理技巧培訓）</label><select id="q8" required></select></div>
+      <div class="question"><label for="q9">(2) 實體工作坊 vs (3) 一對一輔導（提供自我管理技巧培訓）</label><select id="q9" required></select></div>
+
+      <div class="question"><label for="q10">(1) 線上課程 vs (2) 實體工作坊（增強自我監控能力）</label><select id="q10" required></select></div>
+      <div class="question"><label for="q11">(1) 線上課程 vs (3) 一對一輔導（增強自我監控能力）</label><select id="q11" required></select></div>
+      <div class="question"><label for="q12">(2) 實體工作坊 vs (3) 一對一輔導（增強自我監控能力）</label><select id="q12" required></select></div>
+
+      <div class="question"><label for="q13">(1) 線上課程 vs (2) 實體工作坊（鼓勵自我激勵策略）</label><select id="q13" required></select></div>
+      <div class="question"><label for="q14">(1) 線上課程 vs (3) 一對一輔導（鼓勵自我激勵策略）</label><select id="q14" required></select></div>
+      <div class="question"><label for="q15">(2) 實體工作坊 vs (3) 一對一輔導（鼓勵自我激勵策略）</label><select id="q15" required></select></div>
+
+      <div class="question"><label for="q16">(1) 線上課程 vs (2) 實體工作坊（提供學習資源支持）</label><select id="q16" required></select></div>
+      <div class="question"><label for="q17">(1) 線上課程 vs (3) 一對一輔導（提供學習資源支持）</label><select id="q17" required></select></div>
+      <div class="question"><label for="q18">(2) 實體工作坊 vs (3) 一對一輔導（提供學習資源支持）</label><select id="q18" required></select></div>
+    </div>
+
+    <button type="submit">提交問卷</button>
+  </form>
+</div>
+
+<script>
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzHpKM3MPRs3Qwn6D0tnfu6ISxteqwTpMNhCvKpPvT5Ji6-wjGSz2YiezVH45KpTigl/exec';
+const form = document.getElementById('ahpForm');
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const data = {};
+  for (let i = 1; i <= 18; i++) {
+    data['q' + i] = document.getElementById('q' + i).value;
+  }
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  })
+  .then(response => alert('送出成功，感謝您的填答！'))
+  .catch(error => alert('送出失敗，請稍後再試！'));
+});
+
+const options = `
+  <option value="">--請選擇--</option>
+  <option value="9">左邊極端重要 (9)</option>
+  <option value="8">左邊非常重要 (8)</option>
+  <option value="7">左邊明顯重要 (7)</option>
+  <option value="6">左邊較重要 (6)</option>
+  <option value="5">左邊稍微重要 (5)</option>
+  <option value="4">左邊略為重要 (4)</option>
+  <option value="3">左邊輕微重要 (3)</option>
+  <option value="2">左邊稍大於右邊 (2)</option>
+  <option value="1">兩者同等重要 (1)</option>
+  <option value="2r">右邊稍大於左邊 (2)</option>
+  <option value="3r">右邊輕微重要 (3)</option>
+  <option value="4r">右邊略為重要 (4)</option>
+  <option value="5r">右邊稍微重要 (5)</option>
+  <option value="6r">右邊較重要 (6)</option>
+  <option value="7r">右邊明顯重要 (7)</option>
+  <option value="8r">右邊非常重要 (8)</option>
+  <option value="9r">右邊極端重要 (9)</option>
+`;
+document.querySelectorAll('select').forEach(el => el.innerHTML = options);
+</script>
+</body>
+</html>
