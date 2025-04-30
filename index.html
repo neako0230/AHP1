@@ -71,9 +71,13 @@ form.addEventListener('submit', e => {
   }
 
   fetch(scriptURL, {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'  // 🔥 必須加這行，才能讓 Apps Script 正確解析 JSON
+  },
+  body: JSON.stringify(data)
+})
+
   .then(response => alert('送出成功，感謝您的填答！'))
   .catch(error => alert('送出失敗，請稍後再試！'));
 });
